@@ -1,0 +1,12 @@
+{
+  "http": {
+    "port": 8080
+  },
+  "db": {
+    "host": "localhost",
+    "port": 3306,
+    "user": "user",
+    "password": "password",
+    "database": "db_name"
+  }
+}
