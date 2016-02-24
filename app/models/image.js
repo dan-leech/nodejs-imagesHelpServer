@@ -30,7 +30,7 @@ function getImage(idPath, response) {
     _getImgPath(idPath, function (err, file) {
         _errorHandler(err, response, function(response) {
             if(config.get("images:path").length)
-                file = path.normalize(config.get("images:path") + file);
+                file = path.normalize(config.get("images:path") + "/" + file);
             else
                 file = path.normalize(__dirname + '/../' + file);
             fs.access(file, fs.F_OK, function (err) {
