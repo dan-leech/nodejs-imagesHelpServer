@@ -1,3 +1,4 @@
+var config = require("../config/config");
 var db = require("../db");
 var fs = require("fs");
 var path = require('path');
@@ -28,7 +29,10 @@ function _errorHandler(err, response, callback) {
 function getImage(idPath, response) {
     _getImgPath(idPath, function (err, file) {
         _errorHandler(err, response, function(response) {
-            file = path.normalize(__dirname + '/../' + file);
+            if(config.get("images:path").length)
+                file = path.normalize(config.get("images:path") + file);
+            else
+                file = path.normalize(__dirname + '/../' + file);
             fs.access(file, fs.F_OK, function (err) {
                 if(err) {
                     err = {code: 404};
@@ -79,7 +83,7 @@ function _getImgPath (idPath, callback) {
                     num = idPath[1];
             } else
                 id = idPath;
-            connection.query('SELECT url FROM photo WHERE id = ' + parseInt(id, 10), function (err, rows) {
+            connection.query('SELECT url FROM photo WHERE message_id = ' + parseInt(id, 10), function (err, rows) {
                 connection.release();
                 if (!err) {
                     if (rows.length && num < rows.length)
@@ -113,7 +117,7 @@ function _getImgCount (id, callback) {
     if (!(callback instanceof Function)) throw new Error("Wrong function parameters");
     db(function(err, connection) {
         if(!err) {
-            connection.query('SELECT COUNT(id) as count FROM photo WHERE id = ' + parseInt(id, 10), function (err, rows) {
+            connection.query('SELECT COUNT(id) as count FROM photo WHERE message_id = ' + parseInt(id, 10), function (err, rows) {
                 connection.release();
                 if (!err) {
                     if (rows.length)
