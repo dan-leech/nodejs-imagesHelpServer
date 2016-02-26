@@ -96,8 +96,6 @@ function _getImgPath (idPath, callback) {
 
             });
         } else {
-            if(err.code == 100)
-                console.error('database connection error!!!!');
             callback({code: 500});
         }
 
