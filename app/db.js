@@ -14,7 +14,6 @@ module.exports = function handle_database(callback) {
 
     db.getConnection(function (err, connection) {
         if (err) {
-            connection.release();
             callback({"code": 100, "status": "Error in connection database"});
             return;
         }
